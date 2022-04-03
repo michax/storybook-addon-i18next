@@ -41,10 +41,11 @@ class I18NextTool extends React.Component {
     api.off(SET_STORIES, this.listener);
   }
 
-  configure(options) {
-    const { i18n, languages } = options;
-    const { language } = i18n;
-    this.setState({ language, languages });
+  handleLanguageClick(event) {
+    const { dataset: { value } = {} } = event.currentTarget;
+    this.setState({ isTooltipExpanded: false, language: value }, () => {
+      this.emitLanguageChanged();
+    });
   }
 
   emitLanguageChanged() {
@@ -53,11 +54,10 @@ class I18NextTool extends React.Component {
     api.emit(LANGUAGE_CHANGED_EVENT_ID, language);
   }
 
-  handleLanguageClick(event) {
-    const { dataset: { value } = {} } = event.currentTarget;
-    this.setState({ isTooltipExpanded: false, language: value }, () => {
-      this.emitLanguageChanged();
-    });
+  configure(options) {
+    const { i18n, languages } = options;
+    const { language } = i18n;
+    this.setState({ language, languages });
   }
 
   render() {
